@@ -45,11 +45,11 @@ namespace TrafficSim
         public const int RED_LIGHT_PASS_THRESHOLD = 6;
         public const float FRONT_ANGLE_THRESHOLD = 0.8f;
 
-        public float ApplyObstructionModifier(float units, PointF tangent)
+        public float ApplyObstructionModifier(float pixelUnits, PointF forwardVector)
         {
-            var forward = CurrentRoad.IsForwardDirection(Direction);
-            var carListCurrentRoad = forward ? CurrentRoad.ForwardCars : CurrentRoad.AlternateCars; // cars on same road
-            var directionTangent = forward ? tangent : tangent.Mult(-1);
+            var isForward = CurrentRoad.IsForwardDirection(Direction);
+            var carListCurrentRoad = isForward ? CurrentRoad.ForwardCars : CurrentRoad.AlternateCars; // cars on same road
+            var directionTangent = isForward ? forwardVector : forwardVector.Mult(-1);
 
             CurrentDirection = directionTangent;
 
@@ -83,9 +83,9 @@ namespace TrafficSim
                 }
 
                 var dist = car.Position.DistanceTo(Position);
-                if (dist <= units * VisibilityRangeScalar)
+                if (dist <= pixelUnits * VisibilityRangeScalar)
                 {
-                    return units / VisibilityRangeScalar / (float) dist;
+                    return pixelUnits / VisibilityRangeScalar / (float) dist;
                 }
             }
 
@@ -114,13 +114,13 @@ namespace TrafficSim
                 }
 
                 // verify the intersection is within visibility distance
-                if (dist <= units * VisibilityRangeScalar)
+                if (dist <= pixelUnits * VisibilityRangeScalar)
                 {
-                    return (units / VisibilityRangeScalar) / (float) dist;
+                    return (pixelUnits / VisibilityRangeScalar) / (float) dist;
                 }
             }
 
-            return units;
+            return pixelUnits;
         }
 
         public void GoalReached()
@@ -144,12 +144,10 @@ namespace TrafficSim
                 return;
             }
 
-            var units = CurrentRoad.GetUnitsPerHour(CurrentRoad.SpeedLimit); //pixel distance
-
+            var expectedTravelDistance = ((CurrentRoad.SpeedLimit / 60f) / 60f) * delta; //Speed limit is in MPH and delta is expected to be in seconds, so apply a conversion so we can get miles/second
             var forwardVector = CurrentSegment.Normalized();
 
-            units = units / 60 / 60 / (delta * 1000);
-            units = ApplyObstructionModifier(units, forwardVector);
+            expectedTravelDistance = ApplyObstructionModifier(expectedTravelDistance, forwardVector);
 
             if (!forwardVector.IsZero())
             {
@@ -158,7 +156,7 @@ namespace TrafficSim
                     forwardVector = forwardVector.Mult(-1);
                     IsForward = false;
                 }
-                Position = Position.Add(forwardVector.Mult(units));
+                Position = Position.Add(forwardVector.Mult(expectedTravelDistance));
             }
 
             if (!Line.PointOnLineSegment(CurrentSegment, Position))

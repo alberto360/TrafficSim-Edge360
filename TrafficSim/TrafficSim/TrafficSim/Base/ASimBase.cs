@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    public abstract class ASimBase
+    public interface ASimBase
     {
-        public abstract void Initialize();
-        public abstract void Update(float delta); 
+        void Initialize();
+        void Update(float delta); 
     }
 }

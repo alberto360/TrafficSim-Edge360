@@ -3,11 +3,11 @@ using System.Drawing;
 
 namespace TrafficSim
 {
-    public class Intersection : ASimBase
+    public class Intersection : RoadSegmentEndpoint, ASimBase
     {
         private readonly Dictionary<Road, TrafficLight> _lightCache = new Dictionary<Road, TrafficLight>();
         private int _currentLightIndex;
-        private int numberOfLightsAtIntersection = 2;
+        private int _numberOfLightsAtIntersection = 2; //changed this from a magic number to something we can manipulate on a per intersection basis later. -MR
 
 
 
@@ -18,7 +18,7 @@ namespace TrafficSim
 
             IntersectionManager = manager;
 
-            numberOfLightsAtIntersection = numberOfDistinctLightSets;
+            _numberOfLightsAtIntersection = numberOfDistinctLightSets;
 
             Lights = new List<TrafficLight>();
 
@@ -51,7 +51,7 @@ namespace TrafficSim
         private int CurrentLightIndex
         {
             get => _currentLightIndex;
-            set => _currentLightIndex = value % numberOfLightsAtIntersection;
+            set => _currentLightIndex = value % _numberOfLightsAtIntersection;
         }
 
         public TrafficLight GetLight(Road road)

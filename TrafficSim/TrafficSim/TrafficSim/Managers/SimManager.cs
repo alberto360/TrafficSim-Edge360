@@ -8,12 +8,12 @@ namespace TrafficSim
     {
         private DateTime _lastTick = DateTime.Now;
 
-        public SimManager(Road[] roads)
+        public SimManager(Road[] roads, CarManager cm)
         {
             RoadManager = new RoadManager(this);
             RoadManager.Roads = roads.ToList();
 
-            CarManager = new CarManager(this, RoadManager.Roads);
+            CarManager = cm;
 
             IntersectionManager = new IntersectionManager(this);
         }
@@ -34,7 +34,9 @@ namespace TrafficSim
 
         public void Update()
         {
-            Update((float) (DateTime.Now - _lastTick).TotalSeconds);
+            //This is a real time simulation, but all other components using DateTime have been changed, 
+            //so we can now Tick at arbitrary rates and update with arbitrary deltas - MR
+            Update((float) (DateTime.Now - _lastTick).TotalSeconds); 
             _lastTick = DateTime.Now;
         }
 

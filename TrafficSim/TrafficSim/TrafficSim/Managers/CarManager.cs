@@ -6,18 +6,12 @@ namespace TrafficSim
 {
     public class CarManager : ASimBase
     {
-        private DateTime? _lastCarAdded;
-
-        public CarManager(SimManager manager, List<Road> roads)
+        public CarManager()
         {
             Cars = new List<Car>();
-            Roads = roads;
-            SimManager = manager;
         }
 
         public List<Car> Cars { get; set; }
-        public List<Road> Roads { get; set; }
-        public SimManager SimManager { get; set; }
 
         public void AddCar(Car c)
         {
@@ -39,18 +33,9 @@ namespace TrafficSim
             {
                 car.Update(delta);
             }
-
-            if (_lastCarAdded == null || (DateTime.Now - _lastCarAdded).Value.TotalSeconds > 1)
-            {
-                _lastCarAdded = DateTime.Now;
-                foreach (var road in Roads)
-                {
-                    SpawnCar(road);
-                }
-            }
         }
 
-        private void SpawnCar(Road road)
+        internal void SpawnCar(Road road)
         {
             if (road.Intersections.Count == 0)
             {
