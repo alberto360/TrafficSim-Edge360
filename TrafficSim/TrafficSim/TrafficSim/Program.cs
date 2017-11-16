@@ -14,9 +14,11 @@ namespace TrafficSim
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+//            Application.EnableVisualStyles();
+//            Application.SetCompatibleTextRenderingDefault(false);
+//            Application.Run(new Form1());
+            Simulator temp = new Simulator();
+            temp.Run();
         }
     }
 }

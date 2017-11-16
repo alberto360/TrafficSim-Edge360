@@ -1,4 +1,6 @@
-﻿namespace TrafficSim
+﻿using System;
+
+namespace TrafficSim
 {
     public class TrafficLight : ASimBase
     {
@@ -16,6 +18,8 @@
 
         public TrafficLight(Intersection intersection, TrafficLight partner)
         {
+
+            Id = Guid.NewGuid();
             Intersection = intersection;
             Partner = partner;
 
@@ -29,6 +33,8 @@
                 Partner.Partner = this;
             }
         }
+
+        public Guid Id { get; private set;  }
 
         public float GreenDuration { get; set; }
         public Intersection Intersection { get; set; }
