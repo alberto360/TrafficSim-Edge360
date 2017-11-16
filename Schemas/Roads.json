@@ -1,0 +1,317 @@
+{
+    "roads": [
+        {
+            "data": [
+                {
+                    "id": "1",
+                    "name": "495",
+                    "number": "495",
+                    "speedlimit": {
+                        "speedlimit": 60,
+                        "units": "MPH"
+                    },
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 80,
+                            "y": 40
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 80,
+                            "y": 130
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 160,
+                            "y": 320
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 440,
+                            "y": 440
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 520,
+                            "y": 360
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 720,
+                            "y": 280
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 800,
+                            "y": 160
+                        }
+                    ]
+                },
+                {
+                    "id": "3",
+                    "name": "Little River Turnpike",
+                    "number": "236",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 40,
+                            "y": 60
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 520,
+                            "y": 240
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 660,
+                            "y": 360
+                        }
+                    ]
+                },
+                {
+                    "id": "4",
+                    "name": "Backlick Road",
+                    "number": "617",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 210,
+                            "y": 50
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 280,
+                            "y": 240
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 320,
+                            "y": 430
+                        }
+                    ]
+                },
+                {
+                    "id": "5",
+                    "name": "Edsall Road",
+                    "number": "648",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 240,
+                            "y": 280
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 600,
+                            "y": 400
+                        }
+                    ]
+                },
+
+                {
+                    "id": "7",
+                    "name": "Columbia Pike",
+                    "number": "244",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 120,
+                            "y": 120
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 400,
+                            "y": 90
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 720,
+                            "y": 40
+                        }
+                    ]
+                },
+                {
+                    "id": "8",
+                    "name": "Lincolnia Rd.",
+                    "number": "244",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 390,
+                            "y": 30
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 510,
+                            "y": 290
+                        }
+                    ]
+                },
+                {
+                    "id": "9",
+                    "name": "Route 7",
+                    "number": "7",
+                    "speedlimit": {
+                        "speedlimit": 30,
+                        "units": "MPH"
+                    },
+                    "lanes": [
+                        {
+                            "laneNumber": 1,
+                            "direction": "east"
+                        },
+                        {
+                            "laneNumber": 1,
+                            "direction": "west"
+                        }
+                    ],
+                    "distance": {
+                        "text": "60 ft",
+                        "value": 60
+                    },
+                    "segments": [
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 590,
+                            "y": 30
+                        },
+                        {
+                            "lat": 0,
+                            "lng": 0,
+                            "x": 800,
+                            "y": 240
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

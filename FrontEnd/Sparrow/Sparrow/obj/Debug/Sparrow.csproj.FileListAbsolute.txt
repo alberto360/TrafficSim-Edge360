@@ -1,0 +1,12 @@
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\bin\Debug\Sparrow.exe.config
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\bin\Debug\Sparrow.exe
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\bin\Debug\Sparrow.pdb
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.csprojResolveAssemblyReference.cache
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.Properties.Resources.resources
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.csproj.GenerateResource.Cache
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.exe
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.pdb
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.SparrowForm.resources
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\obj\Debug\Sparrow.Plane.resources
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\bin\Debug\Newtonsoft.Json.dll
+D:\temp\TrafficControl\FrontEnd\Sparrow\Sparrow\bin\Debug\Newtonsoft.Json.xml

@@ -1,0 +1,13 @@
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\bin\Debug\SparrowDiagram.exe.config
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\bin\Debug\SparrowDiagram.exe
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\bin\Debug\SparrowDiagram.pdb
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.SparrowDiagram.resources
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.Properties.Resources.resources
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.csproj.GenerateResource.Cache
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.exe
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.pdb
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\bin\Debug\Newtonsoft.Json.dll
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\bin\Debug\Newtonsoft.Json.xml
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.csprojResolveAssemblyReference.cache
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.g.resources
+D:\temp\TrafficControl\FrontEnd\SparrowDiagram\SparrowDiagram\obj\Debug\SparrowDiagram.SparrowPlane.resources

@@ -1,0 +1,156 @@
+{
+    "intersections": [
+        {
+            "data": [
+                {
+                    "id": "1",
+                    "title": "Bailey's Crossroads",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "1",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "3",
+                            "distance_from_start": 50
+                        }
+                    ]
+                },
+                {
+                    "id": "2",
+                    "title": "Tysons Merge",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "1",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "2",
+                            "distance_from_start": 50
+                        }
+                    ]
+                },
+                {
+                    "id": "3",
+                    "title": "Shirlington",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "2",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "9",
+                            "distance_from_start": 50
+                        }
+                    ]
+                },
+                {
+                    "id": "4",
+                    "title": "Columbia Pike 7 Left Turn",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "7",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "9",
+                            "distance_from_start": 50
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "5",
+                    "title": "Columbia Pike and Little River Merge",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "7",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "3",
+                            "distance_from_start": 50
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "6",
+                    "title": "Backlick and Little River Merge",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "4",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "3",
+                            "distance_from_start": 50
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "7",
+                    "title": "Edsall and Backliock Merge",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "4",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "5",
+                            "distance_from_start": 50
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "8",
+                    "title": "Edsall and Backliock Merge",
+                    "stoplight":{
+                        "enabled":true, 
+                        "cycle":100
+                    },
+                    "roads": [
+                        {
+                            "id": "4",
+                            "distance_from_start": 50
+                        },
+                        {
+                            "id": "5",
+                            "distance_from_start": 50
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
