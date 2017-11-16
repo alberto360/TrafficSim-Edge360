@@ -6,12 +6,10 @@ namespace TrafficSim
 {
     public class IntersectionManager : ASimBase
     {
-        public IntersectionManager(SimManager manager)
+        public IntersectionManager(SimManager manager, List<Intersection> intersections)
         {
-            Intersections = new List<Intersection>();
+            Intersections = intersections;
             SimManager = manager;
-
-            CalculateIntersections();
         }
 
         public List<Intersection> Intersections { get; set; }
@@ -20,38 +18,6 @@ namespace TrafficSim
         public void AddIntersection(Intersection intersection)
         {
             Intersections.Add(intersection);
-        }
-
-        //Really, we'd like to only add our own intersections, but I've preserved this method for now -MR
-        public void CalculateIntersections()
-        {
-            foreach (var road in SimManager.Roads)
-            {
-                foreach (var otherRoad in SimManager.Roads)
-                {
-                    if (road == otherRoad)
-                    {
-                        continue;
-                    }
-
-                    if (road.Intersects(otherRoad, out PointF hit))
-                    {
-                        var exists = false;
-                        foreach (var existing in Intersections)
-                        {
-                            if (hit.DistanceTo(existing.Position) < 5)
-                            {
-                                exists = true;
-                            }
-                        }
-                        if (exists)
-                        {
-                            continue;
-                        }
-                        AddIntersection(new Intersection(this, new[] {road, otherRoad}, hit));
-                    }
-                }
-            }
         }
 
         public void Initialize()

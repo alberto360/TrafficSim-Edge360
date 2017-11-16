@@ -5,16 +5,15 @@ namespace TrafficSim
 {
     public class Intersection : ASimBase
     {
-        private readonly Dictionary<Road, TrafficLight> _lightCache = new Dictionary<Road, TrafficLight>();
+        private readonly Dictionary<RoadSegmentEndpoint, TrafficLight> _lightCache = new Dictionary<RoadSegmentEndpoint, TrafficLight>();
         private int _currentLightIndex;
         private int _numberOfLightsAtIntersection = 2; //changed this from a magic number to something we can manipulate on a per intersection basis later. -MR
 
         //Eventually this may be combined with or replace the "_lightCache" field above
         private List<RoadSegmentEndpoint> intersectionEndpoints; //the intersection enpoints should all be "around" the intersection itself - moving through the intersection should consist of moving from endpoint to endpoint, so in a way this class is like a special road segment
 
-        public Intersection(IntersectionManager manager, Road[] roads, PointF position, int numberOfDistinctLightSets = 2)
+        public Intersection(IntersectionManager manager, List<RoadSegmentEndpoint> connectedSegmentEndpoints, PointF position, int numberOfDistinctLightSets = 2)
         {
-            Roads = roads;
             Position = position;
 
             IntersectionManager = manager;
@@ -22,6 +21,7 @@ namespace TrafficSim
             _numberOfLightsAtIntersection = numberOfDistinctLightSets;
 
             Lights = new List<TrafficLight>();
+            intersectionEndpoints = connectedSegmentEndpoints;
 
             TrafficLight firstLight = null;
 
@@ -33,7 +33,7 @@ namespace TrafficSim
                     firstLight = light;
                 }
                 Lights.Add(light);
-                light.Road = road;
+                //light.Road = road;
                 light.Segment = road.GetSegment(Position); //These should be modified to get / use the RoadSegment objects rather than just "Lines"
                 road.Intersections.Add(this);
                 _lightCache.Add(road, light);
@@ -47,26 +47,25 @@ namespace TrafficSim
         public List<TrafficLight> Lights { get; set; }
 
         public PointF Position { get; set; }
-        public Road[] Roads { get; set; }
-
+       
         private int CurrentLightIndex
         {
             get => _currentLightIndex;
             set => _currentLightIndex = value % _numberOfLightsAtIntersection;
         }
 
-        public TrafficLight GetLight(Road road)
+        public TrafficLight GetLight(RoadSegmentEndpoint roadEnpoint)
         {
-            if (_lightCache.TryGetValue(road, out TrafficLight v))
+            if (_lightCache.TryGetValue(roadEnpoint, out TrafficLight v))
             {
                 return v;
             }
             return null;
         }
 
-        public TrafficLight.ETrafficLightStatus GetLightState(Road road)
+        public TrafficLight.ETrafficLightStatus GetLightState(RoadSegmentEndpoint roadEnpoint)
         {
-            if (_lightCache.TryGetValue(road, out TrafficLight v))
+            if (_lightCache.TryGetValue(roadEnpoint, out TrafficLight v))
             {
                 return v.Status;
             }

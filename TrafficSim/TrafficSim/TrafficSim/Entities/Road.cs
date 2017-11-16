@@ -90,17 +90,17 @@ namespace TrafficSim
             return Segments[index];
         }
 
-        public RoadSegment GetSegment(PointF position)
-        {
-            foreach (var k in Segments)
-            {
-                if (Line.PointOnLineSegment(k, position))
-                {
-                    return k;
-                }
-            }
-            return null;
-        }
+        //public RoadSegment GetSegment(PointF position)
+        //{
+        //    foreach (var k in Segments)
+        //    {
+        //        if (Line.PointOnLineSegment(k, position))
+        //        {
+        //            return k;
+        //        }
+        //    }
+        //    return null;
+        //}
         //public Line GetSegment(PointF position)
         //{
         //    foreach (var k in Segments)
@@ -160,7 +160,8 @@ namespace TrafficSim
                 _carSpawnTimeAccumulator -= _carSpawnRate;
             }
         }
-        //Really what we want is not to generate segments, based on a road, but to define a road based on connected segments. This method should eventually be removed - MR
+        //Really what we want is not to generate segments, based on a road, but to define a road based on connected segments (with points defined via Alberto's data). 
+        //This method should eventually be removed - MR
         private void GenerateSegments()
         {
             for (var i = 1; i < Vertices.Count; i++)

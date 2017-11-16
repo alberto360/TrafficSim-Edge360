@@ -17,25 +17,24 @@
         public TrafficLight(Intersection intersection, TrafficLight partner)
         {
             Intersection = intersection;
-            Partner = partner;
+            //Partner = partner;
 
             Status = ETrafficLightStatus.Red;
 
             GreenDuration = Util.GetRandomNumber(10, 30);
             YellowDuration = Util.GetRandomNumber(10, 15);
 
-            if (Partner != null)
-            {
-                Partner.Partner = this;
-            }
+            //if (Partner != null)
+            //{
+            //    Partner.Partner = this;
+            //}
         }
 
         public float GreenDuration { get; set; }
         public Intersection Intersection { get; set; }
 
-        public TrafficLight Partner { get; set; }
+        //public TrafficLight Partner { get; set; } //Traffic lights don't always operate in pairs: and if they do happen to we can just have the intersection set multiple lights to a certain state
 
-        public Road Road { get; set; }
         public RoadSegment Segment { get; set; }
 
         public ETrafficLightStatus Status
