@@ -37,15 +37,10 @@ namespace TrafficSim
         {
             foreach (var car in Cars)
             {
-                if (!car.Disabled)
-                {
-                    car.Update(delta);
-
-                }
-                
+                car.Update(delta);
             }
 
-            if (_lastCarAdded == null || (DateTime.Now - _lastCarAdded).Value.TotalSeconds > 100)
+            if (_lastCarAdded == null || (DateTime.Now - _lastCarAdded).Value.TotalSeconds > 1)
             {
                 _lastCarAdded = DateTime.Now;
                 foreach (var road in Roads)
@@ -67,7 +62,7 @@ namespace TrafficSim
 
             var segment = end ? road.Segments.Last() : road.Segments.First();
 
-            var car = new Car(SimManager, road, spawnPoint, direction)
+            var car = new Car(road, spawnPoint, direction)
             {
                 CurrentSegment = segment,
                 CurrentRoad = road

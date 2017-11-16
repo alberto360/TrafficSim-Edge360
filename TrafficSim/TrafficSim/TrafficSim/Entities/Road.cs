@@ -5,12 +5,10 @@ using System.Drawing;
 namespace TrafficSim
 {
     public class Road : ASimBase
-    {  
-
-        public Road(Datum roadSegment, float lengthInMiles)
+    {
+        public Road(List<PointF> vertices, float lengthInMiles)
         {
-            RoadSegment = roadSegment;
-            Vertices = roadSegment.segments.ToVertices();
+            Vertices = vertices;
             Segments = new List<Line>();
             Intersections = new List<Intersection>();
             ForwardCars = new List<Car>();
@@ -27,25 +25,6 @@ namespace TrafficSim
             CoDirection = coDir;
         }
 
-        //        public Road(List<PointF> vertices, float lengthInMiles)
-        //        {
-        //            Vertices = vertices;
-        //            Segments = new List<Line>();
-        //            Intersections = new List<Intersection>();
-        //            ForwardCars = new List<Car>();
-        //            AlternateCars = new List<Car>();
-        //
-        //            LengthInMiles = lengthInMiles;
-        //            ComputeCartesianLength();
-        //
-        //            CalculateDirectionTrend(out float dir, out float coDir);
-        //
-        //            SpeedLimit = 60;
-        //
-        //            Direction = dir;
-        //            CoDirection = coDir;
-        //        }
-        public Datum RoadSegment { get; set; }
         public List<Car> AlternateCars { get; set; }
 
         public float CartesianLength { get; set; }

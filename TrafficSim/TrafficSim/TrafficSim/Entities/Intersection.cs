@@ -7,15 +7,18 @@ namespace TrafficSim
     {
         private readonly Dictionary<Road, TrafficLight> _lightCache = new Dictionary<Road, TrafficLight>();
         private int _currentLightIndex;
+        private int numberOfLightsAtIntersection = 2;
 
-        public Intersection(SimManager simManager, IntersectionManager manager, Road[] roads, PointF position)
+
+
+        public Intersection(IntersectionManager manager, Road[] roads, PointF position, int numberOfDistinctLightSets = 2)
         {
             Roads = roads;
             Position = position;
 
-            SimManager = simManager;
-
             IntersectionManager = manager;
+
+            numberOfLightsAtIntersection = numberOfDistinctLightSets;
 
             Lights = new List<TrafficLight>();
 
@@ -42,15 +45,13 @@ namespace TrafficSim
 
         public List<TrafficLight> Lights { get; set; }
 
-        public SimManager SimManager { get; set; }
-
         public PointF Position { get; set; }
         public Road[] Roads { get; set; }
 
         private int CurrentLightIndex
         {
             get => _currentLightIndex;
-            set => _currentLightIndex = value % 2;
+            set => _currentLightIndex = value % numberOfLightsAtIntersection;
         }
 
         public TrafficLight GetLight(Road road)
@@ -80,7 +81,7 @@ namespace TrafficSim
         {
             foreach (var light in Lights)
             {
-                light.Update(delta*SimManager.Rate);
+                light.Update(delta);
 
                 if (light.Status != TrafficLight.ETrafficLightStatus.Red)
                 {

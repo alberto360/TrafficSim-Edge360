@@ -6,12 +6,10 @@ namespace TrafficSim
 {
     public class SimManager : ASimBase
     {
-      
         private DateTime _lastTick = DateTime.Now;
 
         public SimManager(Road[] roads)
         {
-            Rate = 8;
             RoadManager = new RoadManager(this);
             RoadManager.Roads = roads.ToList();
 
@@ -21,7 +19,7 @@ namespace TrafficSim
         }
 
         public CarManager CarManager { get; set; }
-        public float Rate { get; set; }
+
         public List<Car> Cars => CarManager.Cars;
 
         public IntersectionManager IntersectionManager { get; set; }
@@ -33,10 +31,10 @@ namespace TrafficSim
         public override void Initialize()
         {
         }
-        
+
         public void Update()
         {
-            Update((float)(DateTime.Now - _lastTick).TotalSeconds / Rate);
+            Update((float) (DateTime.Now - _lastTick).TotalSeconds);
             _lastTick = DateTime.Now;
         }
 

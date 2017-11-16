@@ -47,7 +47,7 @@ namespace TrafficSim
                         {
                             continue;
                         }
-                        AddIntersection(new Intersection(SimManager, this, new[] {road, otherRoad}, hit));
+                        AddIntersection(new Intersection(this, new[] {road, otherRoad}, hit));
                     }
                 }
             }

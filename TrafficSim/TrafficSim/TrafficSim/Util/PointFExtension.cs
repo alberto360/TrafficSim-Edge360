@@ -45,6 +45,11 @@ namespace TrafficSim
                 (float)(a.X * Math.Sin(theta) + a.Y * Math.Cos(theta)));
         }
 
+        public static PointF Perpendicular(this PointF a)
+        {
+            return new PointF(a.Y, -a.X);
+        }
+
         public static bool IsZero(this PointF a)
         {
             return a.X == 0 && a.Y == 0;
