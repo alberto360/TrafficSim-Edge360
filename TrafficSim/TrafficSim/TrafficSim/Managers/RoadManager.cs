@@ -13,11 +13,11 @@ namespace TrafficSim
         public List<Road> Roads { get; set; }
         public SimManager SimManager { get; set; }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var road in Roads)
             {

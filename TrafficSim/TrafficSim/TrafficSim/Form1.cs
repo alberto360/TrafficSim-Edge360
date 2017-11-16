@@ -12,7 +12,8 @@ namespace TrafficSim
 {
     public partial class Form1 : Form
     {
-        //All units are now assumed to be in miles or miles per second unless stated otherwise
+        //All units are now assumed to be in miles or miles per second unless stated otherwise 
+        //(this means that until the roads are updated with the new system, 100 pixels is actually going to be 100 miles and
         public Form1()
         {
             InitializeComponent();
@@ -116,7 +117,7 @@ namespace TrafficSim
                             break;
                     }
 
-                    var offset = light.Segment.Normalized().Mult(15);
+                    var offset = light.Segment.GetDirection().Mult(15);
                     e.Graphics.DrawLine(new Pen(color, 2), intersection.Position.Add(offset),
                         intersection.Position.Subtract(offset));
                 }

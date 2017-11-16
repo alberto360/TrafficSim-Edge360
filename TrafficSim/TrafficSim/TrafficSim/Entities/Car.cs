@@ -33,7 +33,7 @@ namespace TrafficSim
             }
         }
 
-        public Line CurrentSegment { get; set; }
+        public RoadSegment CurrentSegment { get; set; }
 
         public float Direction { get; set; }
 
@@ -53,7 +53,7 @@ namespace TrafficSim
 
             CurrentDirection = directionTangent;
 
-            var nextEdge = CurrentRoad.GetNextEdge(Direction, CurrentSegment, out PointF start);
+            var nextEdge = CurrentRoad.GetNextEdge(Direction, CurrentSegment, out RoadSegmentEndpoint start);
 
             foreach (var car in carListCurrentRoad)
             {
@@ -127,7 +127,7 @@ namespace TrafficSim
         {
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
@@ -145,7 +145,7 @@ namespace TrafficSim
             }
 
             var expectedTravelDistance = ((CurrentRoad.SpeedLimit / 60f) / 60f) * delta; //Speed limit is in MPH and delta is expected to be in seconds, so apply a conversion so we can get miles/second
-            var forwardVector = CurrentSegment.Normalized();
+            var forwardVector = CurrentSegment.GetDirection();
 
             expectedTravelDistance = ApplyObstructionModifier(expectedTravelDistance, forwardVector);
 
@@ -157,16 +157,50 @@ namespace TrafficSim
                     IsForward = false;
                 }
                 Position = Position.Add(forwardVector.Mult(expectedTravelDistance));
+
+                //if (currentPosition.DistanceSquared(destination) < Math.Pow(speed * deltaTime, 2))
+                //{
+                //    //we've reached the end of the road, pick a new one and move the remainder
+                //    //for now, just set current position to start
+                //    //currentPosition = travelingTowardsRoadEnd ? currentRoadSegment.startPoint : currentRoadSegment.endPoint;
+
+                //    List<RoadSegment> destinationRoadChoices = travelingTowardsRoadEnd ? currentRoadSegment.endPointRoadChoices : currentRoadSegment.startPointRoadChoices;
+                //    if (destinationRoadChoices.Count > 0)
+                //    {
+                //        //eventually pick according to an algorithm, for now pick option 0
+                //        float magnitude = destination.Distance(currentPosition);
+                //        float remainderDistance = (speed * deltaTime) - magnitude;
+                //        currentRoadSegment = destinationRoadChoices[0];
+                //        currentPosition = travelingTowardsRoadEnd ? currentRoadSegment.startPoint : currentRoadSegment.endPoint;
+                //        destination = travelingTowardsRoadEnd ? currentRoadSegment.endPoint : currentRoadSegment.startPoint;
+
+                //        magnitude = destination.Distance(currentPosition);
+                //        currentPosition.x += remainderDistance * (destination.x - currentPosition.x) / magnitude;
+                //        currentPosition.y += remainderDistance * (destination.y - currentPosition.y) / magnitude;
+                //    }
+                //    else
+                //    {
+                //        currentPosition = destination;
+                //    }
+                //}
+                //else
+                //{
+                //    //Find our direction vector (normalize) and apply speed * time
+                //    float magnitude = destination.Distance(currentPosition);
+                //    currentPosition.x += speed * deltaTime * (destination.x - currentPosition.x) / magnitude;
+                //    currentPosition.y += speed * deltaTime * (destination.y - currentPosition.y) / magnitude;
+                //    //Console.WriteLine(currentPosition.x + " " + currentPosition.y + " " + (speed * deltaTime * (destination.x - currentPosition.x) / magnitude));
+                //}
             }
 
             if (!Line.PointOnLineSegment(CurrentSegment, Position))
             {
-                CurrentSegment = CurrentRoad.GetNextEdge(Direction, CurrentSegment, out PointF start);
-                Position = start;
+                CurrentSegment = CurrentRoad.GetNextEdge(Direction, CurrentSegment, out RoadSegmentEndpoint start);
+                Position = start._position;
             }
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             Move(delta);
         }

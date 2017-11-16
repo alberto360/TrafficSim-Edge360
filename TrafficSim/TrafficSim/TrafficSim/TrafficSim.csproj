@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Base\ASimBase.cs" />
     <Compile Include="Entities\Car.cs" />
+    <Compile Include="Entities\RoadSegement.cs" />
+    <Compile Include="Entities\RoadSegmentEndpoint.cs" />
     <Compile Include="Managers\CarManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

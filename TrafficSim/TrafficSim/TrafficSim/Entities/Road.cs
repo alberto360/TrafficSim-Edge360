@@ -14,7 +14,7 @@ namespace TrafficSim
         public Road(List<PointF> vertices, CarManager carManager, int speedLimit = 60)
         {
             Vertices = vertices;
-            Segments = new List<Line>();
+            Segments = new List<RoadSegment>();
             Intersections = new List<Intersection>();
             ForwardCars = new List<Car>();
             AlternateCars = new List<Car>();
@@ -44,7 +44,7 @@ namespace TrafficSim
 
         public List<Intersection> Intersections { get; set; }
 
-        public List<Line> Segments { get; set; }
+        public List<RoadSegment> Segments { get; set; }
         public int SpeedLimit { get; set; }
 
         public List<PointF> Vertices { get; set; }
@@ -75,7 +75,7 @@ namespace TrafficSim
             list?.Remove(car);
         }
 
-        public Line GetNextEdge(float direction, Line currentEdge, out PointF start)
+        public RoadSegment GetNextEdge(float direction, RoadSegment currentEdge, out RoadSegmentEndpoint start)
         {
             var forward = IsForwardDirection(direction);
 
@@ -83,14 +83,14 @@ namespace TrafficSim
             index = forward ? index + 1 : index - 1;
             if (index >= Segments.Count || index < 0)
             {
-                start = new PointF();
+                start = null;
                 return null;
             }
-            start = forward ? Segments[index].Start : Segments[index].End;
+            start = forward ? Segments[index]._endpointA : Segments[index]._endpointB;
             return Segments[index];
         }
 
-        public Line GetSegment(PointF position)
+        public RoadSegment GetSegment(PointF position)
         {
             foreach (var k in Segments)
             {
@@ -101,6 +101,17 @@ namespace TrafficSim
             }
             return null;
         }
+        //public Line GetSegment(PointF position)
+        //{
+        //    foreach (var k in Segments)
+        //    {
+        //        if (Line.PointOnLineSegment(k, position))
+        //        {
+        //            return k;
+        //        }
+        //    }
+        //    return null;
+        //}
 
         ///// <summary>
         /////     Calculate how much a car should move along the road based on its cartesian length
@@ -113,33 +124,33 @@ namespace TrafficSim
         //    return CartesianLength * milesPerHour / LengthInMiles;
         //}
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
-        public bool Intersects(Road road, out PointF intersectionPoint)
-        {
-            foreach (var segment in Segments)
-            {
-                foreach (var altSegment in road.Segments)
-                {
-                    if (Line.Intersects(segment, altSegment, out PointF hit))
-                    {
-                        intersectionPoint = hit;
-                        return true;
-                    }
-                }
-            }
-            intersectionPoint = new PointF();
-            return false;
-        }
+        //public bool Intersects(Road road, out PointF intersectionPoint)
+        //{
+        //    foreach (var segment in Segments)
+        //    {
+        //        foreach (var altSegment in road.Segments)
+        //        {
+        //            if (Line.Intersects(segment, altSegment, out PointF hit))
+        //            {
+        //                intersectionPoint = hit;
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    intersectionPoint = new PointF();
+        //    return false;
+        //}
 
         public bool IsForwardDirection(float direction)
         {
             return Math.Abs(Direction - direction) < Math.Abs(CoDirection - direction);
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             //Keep track of the passed time: if it exceeds our spawn rate, spawn cars until it doesn't. - MR
             _carSpawnTimeAccumulator += delta;
@@ -149,11 +160,19 @@ namespace TrafficSim
                 _carSpawnTimeAccumulator -= _carSpawnRate;
             }
         }
+        //Really what we want is not to generate segments, based on a road, but to define a road based on connected segments. This method should eventually be removed - MR
         private void GenerateSegments()
         {
-            for (var i = 0; i < Vertices.Count - 1; i++)
+            for (var i = 1; i < Vertices.Count; i++)
             {
-                Segments.Add(new Line(Vertices[i], Vertices[i + 1]));
+
+                //Segments.Add(new Line(Vertices[i-1], Vertices[i]));
+                RoadSegmentEndpoint pointA = i > 1 ? Segments[i-1]._endpointB : new RoadSegmentEndpoint(Vertices[i-1]);
+                RoadSegmentEndpoint pointB = new RoadSegmentEndpoint(Vertices[i]);
+                RoadSegment segment = new RoadSegment(pointA, pointB);
+                pointA._connectedSegments.Add(segment);
+                pointB._connectedSegments.Add(segment);
+                Segments.Add(segment);
             }
         }
 

@@ -18,7 +18,7 @@ namespace TrafficSim
             Cars.Add(c);
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
@@ -27,7 +27,7 @@ namespace TrafficSim
             Cars.Remove(c);
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var car in Cars)
             {

@@ -28,7 +28,7 @@ namespace TrafficSim
 
         public List<Road> Roads => RoadManager.Roads;
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
@@ -40,7 +40,7 @@ namespace TrafficSim
             _lastTick = DateTime.Now;
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             RoadManager.Update(delta);
             CarManager.Update(delta);

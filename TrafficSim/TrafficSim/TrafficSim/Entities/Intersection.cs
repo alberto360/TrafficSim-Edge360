@@ -3,13 +3,14 @@ using System.Drawing;
 
 namespace TrafficSim
 {
-    public class Intersection : RoadSegmentEndpoint, ASimBase
+    public class Intersection : ASimBase
     {
         private readonly Dictionary<Road, TrafficLight> _lightCache = new Dictionary<Road, TrafficLight>();
         private int _currentLightIndex;
         private int _numberOfLightsAtIntersection = 2; //changed this from a magic number to something we can manipulate on a per intersection basis later. -MR
 
-
+        //Eventually this may be combined with or replace the "_lightCache" field above
+        private List<RoadSegmentEndpoint> intersectionEndpoints; //the intersection enpoints should all be "around" the intersection itself - moving through the intersection should consist of moving from endpoint to endpoint, so in a way this class is like a special road segment
 
         public Intersection(IntersectionManager manager, Road[] roads, PointF position, int numberOfDistinctLightSets = 2)
         {
@@ -33,7 +34,7 @@ namespace TrafficSim
                 }
                 Lights.Add(light);
                 light.Road = road;
-                light.Segment = road.GetSegment(Position);
+                light.Segment = road.GetSegment(Position); //These should be modified to get / use the RoadSegment objects rather than just "Lines"
                 road.Intersections.Add(this);
                 _lightCache.Add(road, light);
             }
@@ -72,12 +73,12 @@ namespace TrafficSim
             return TrafficLight.ETrafficLightStatus.Red;
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var light in Lights)
             {

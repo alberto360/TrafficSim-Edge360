@@ -36,7 +36,7 @@
         public TrafficLight Partner { get; set; }
 
         public Road Road { get; set; }
-        public Line Segment { get; set; }
+        public RoadSegment Segment { get; set; }
 
         public ETrafficLightStatus Status
         {
@@ -50,11 +50,11 @@
 
         public float YellowDuration { get; set; }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             _lastUpdateTime += delta;
 

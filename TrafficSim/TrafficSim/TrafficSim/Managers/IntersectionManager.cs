@@ -22,6 +22,7 @@ namespace TrafficSim
             Intersections.Add(intersection);
         }
 
+        //Really, we'd like to only add our own intersections, but I've preserved this method for now -MR
         public void CalculateIntersections()
         {
             foreach (var road in SimManager.Roads)
@@ -53,12 +54,12 @@ namespace TrafficSim
             }
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
             throw new NotImplementedException();
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var intersection in Intersections)
             {
