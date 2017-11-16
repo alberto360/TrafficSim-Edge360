@@ -6,9 +6,11 @@ namespace TrafficSim
 {
     public class Road : ASimBase
     {
-        public Road(List<PointF> vertices, float lengthInMiles)
+
+        public Road(Datum roadSegment, float lengthInMiles)
         {
-            Vertices = vertices;
+            RoadSegment = roadSegment;
+            Vertices = roadSegment.segments.ToVertices();
             Segments = new List<Line>();
             Intersections = new List<Intersection>();
             ForwardCars = new List<Car>();
@@ -25,6 +27,7 @@ namespace TrafficSim
             CoDirection = coDir;
         }
 
+        public Datum RoadSegment { get; set; }
         public List<Car> AlternateCars { get; set; }
 
         public float CartesianLength { get; set; }
@@ -49,7 +52,7 @@ namespace TrafficSim
             var angle = 0.0f;
             for (var i = 0; i < Vertices.Count - 1; i++)
             {
-                angle += (float) Vertices[i].AngleTo(Vertices[i + 1]);
+                angle += (float)Vertices[i].AngleTo(Vertices[i + 1]);
             }
             angle /= Vertices.Count;
             angle *= MathUtil.RadToDegree;
@@ -148,7 +151,7 @@ namespace TrafficSim
                 // populate edge list
                 Segments.Add(new Line(Vertices[i], Vertices[i + 1]));
             }
-            CartesianLength = (float) dist;
+            CartesianLength = (float)dist;
         }
     }
 }

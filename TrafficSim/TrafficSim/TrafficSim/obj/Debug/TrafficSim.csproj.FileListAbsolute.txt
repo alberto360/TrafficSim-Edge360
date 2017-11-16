@@ -17,3 +17,15 @@ C:\Users\mrapkievian\Downloads\TrafficSim\TrafficSim\TrafficSim\obj\Debug\Traffi
 C:\Users\mrapkievian\Downloads\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.csproj.CoreCompileInputs.cache
 C:\Users\mrapkievian\Downloads\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.exe
 C:\Users\mrapkievian\Downloads\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.pdb
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\TrafficSim.exe.config
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.pdb
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.csprojResolveAssemblyReference.cache
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.Form1.resources
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.Properties.Resources.resources
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.SimMap.resources
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.csproj.GenerateResource.Cache
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\TrafficSim.exe
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\TrafficSim.pdb
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\Newtonsoft.Json.dll
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\Newtonsoft.Json.xml
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.exe

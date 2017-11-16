@@ -28,6 +28,10 @@ namespace TrafficSim
             var buffer = new Bitmap(size * 2, size * 2);
             foreach (var road in roads)
             {
+                if (road == null)
+                {
+                    continue;
+                }
                 //draw each line on small region around current point p and check pixel in point p
                 using (var g = Graphics.FromImage(buffer))
                 {//verts[i], verts[i + 1]
