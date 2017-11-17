@@ -74,6 +74,32 @@ namespace TrafficSim
 
         }
 
+        public float RunSimulation(Dictionary<Guid, float> newStates, float simulatedDuration, float timeStep = 0.1f)
+        {
+            foreach (var newState in newStates)
+            {
+                var foundIntersection = simulation.Intersections.First(
+                    intersection => intersection.Lights
+                                        .FirstOrDefault(light => light.Id == newState.Key) != null
+                );
+                var foundLight = foundIntersection.Lights.FirstOrDefault(light => light.Id == newState.Key);
+                foundLight.GreenDuration = newState.Value;
+            }
+            float timeCount = 0;
+            while(timeCount < simulatedDuration)
+            {
+                timeCount += timeStep;
+                simulation.Update(timeStep);
+            }
+            simulation.CarManager.PushPartialScoresToScoreList();
+            return simulation.CarManager.GetSimulationScore();
+        }
+
+        public void RunSimulationRealTime(Dictionary<Guid, float> newStates)
+        {
+            SetConfigStates(newStates);
+        }
+
         private void BuildRoads(RoadSegments roadSegments)
         {
             var cm = new CarManager();
