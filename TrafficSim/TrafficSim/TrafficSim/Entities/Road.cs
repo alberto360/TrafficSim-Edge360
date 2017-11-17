@@ -97,6 +97,17 @@ namespace TrafficSim
             return Segments[index];
         }
 
+        public PointF GetStartPosition(PointF position, Line currentEdge)
+        {
+            var index = Segments.IndexOf(currentEdge);
+            var start = Segments[index].Start;
+            var end = Segments[index].End;
+
+
+            return start.DistanceTo(position) < end.DistanceTo(position) ? start : end;
+            
+        }
+
         public Line GetSegment(PointF position)
         {
             foreach (var k in Segments)
@@ -150,7 +161,7 @@ namespace TrafficSim
         {
             //Keep track of the passed time: if it exceeds our spawn rate, spawn cars until it doesn't. - MR
             _carSpawnTimeAccumulator += delta;
-            while(_carSpawnTimeAccumulator > _carSpawnRate)
+            while (_carSpawnTimeAccumulator > _carSpawnRate)
             {
                 _carManager.SpawnCar(this);
                 _carSpawnTimeAccumulator -= _carSpawnRate;

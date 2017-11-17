@@ -16,6 +16,8 @@ namespace TrafficSim
 
         private CarManager _myManager;
 
+        private float _turnableDistanceFromIntersection = 1f; //if we are less than this distance from the intersection, allow the car to turn when the light is green
+
         public Car(CarManager myManager, Road road, PointF position, float direction)
         {
             CurrentRoad = road;
@@ -126,6 +128,40 @@ namespace TrafficSim
 
                 if (state != TrafficLight.ETrafficLightStatus.Red)
                 {
+                    if(dist < _turnableDistanceFromIntersection)
+                    {
+                        var turningDecision = Util.GetRandomNumber(0, 100);
+                        if (turningDecision == 0)
+                        {
+                            //turn one direction
+                            for(int i = 0; i < intersection.Roads.Length; ++i)
+                            {
+                                if(CurrentRoad != intersection.Roads[i])
+                                {
+                                    CurrentRoad = intersection.Roads[i];
+                                    CurrentSegment = CurrentRoad.GetSegment(intersection.Position);
+                                    Position = intersection.Position;
+                                    IsForward = !IsForward;
+                                    break;
+                                }
+                            }
+                        }
+                        else if(turningDecision == 1)
+                        {
+                            //turn other direction
+                            for (int i = 0; i < intersection.Roads.Length; ++i)
+                            {
+                                if (CurrentRoad != intersection.Roads[i])
+                                {
+                                    CurrentRoad = intersection.Roads[i];
+                                    CurrentSegment = CurrentRoad.GetSegment(intersection.Position);
+                                    Position = intersection.Position;
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     continue;
                 }
 
@@ -177,6 +213,7 @@ namespace TrafficSim
             pixelDistance = pixelDistance / 60 / 60 / (delta * 1000);
             var whole = pixelDistance;
             pixelDistance = ApplyObstructionModifier(pixelDistance, forwardVector);
+            forwardVector = CurrentSegment.Normalized(); //it may have changed after the method call
             var truePercentage = pixelDistance / whole;
                 //because this flickers between full speed and almost nothing every other update, we'll smooth out the interpolation value to make color look nicer
             _desiredSpeedPercentage = _desiredSpeedPercentage + 0.1f * (truePercentage - _desiredSpeedPercentage);
