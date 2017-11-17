@@ -8,7 +8,6 @@ namespace TrafficSim
         private float _desiredSpeedPercentage = 1f; //it should be a value typically between 0 and 1, with 1 being the speed limit
 
 
-
         public Car(Road road, PointF position, float direction)
         {
             CurrentRoad = road;
@@ -154,7 +153,8 @@ namespace TrafficSim
             pixelDistance = pixelDistance / 60 / 60 / (delta * 1000);
             var whole = pixelDistance;
             pixelDistance = ApplyObstructionModifier(pixelDistance, forwardVector);
-            _desiredSpeedPercentage = pixelDistance / whole;
+            var truePercentage = pixelDistance / whole; //because this flickers between full speed and almost nothing every other update, we'll smooth out the interpolation value to make color look nicer
+            _desiredSpeedPercentage = _desiredSpeedPercentage + 0.1f * (truePercentage - _desiredSpeedPercentage);
 
             if (!forwardVector.IsZero())
             {
