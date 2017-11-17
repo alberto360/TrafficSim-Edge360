@@ -86,7 +86,7 @@ namespace TrafficSim
             DoubleBuffered = true;
             simGraphics = new SimGraphics();
 
-            using (StreamReader r = new StreamReader(@"D:/git/TrafficSim-Edge360/Schemas/Roads.json"))
+            using (StreamReader r = new StreamReader(@"../../../../../Schemas/Roads.json"))
             {
                 string json = r.ReadToEnd();
                 _roadSegments = JsonConvert.DeserializeObject<RoadSegments>(json);

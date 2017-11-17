@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace TrafficSim
 {
@@ -9,10 +10,13 @@ namespace TrafficSim
         private Road _currentRoad;
 
         private float _desiredSpeedPercentage = 1f;
-            //it should be a value typically between 0 and 1, with 1 being the speed limit
+        //it should be a value typically between 0 and 1, with 1 being the speed limit
 
+        private List<float> _speedPercentages = new List<float>();
 
-        public Car(Road road, PointF position, float direction)
+        private CarManager _myManager;
+
+        public Car(CarManager myManager, Road road, PointF position, float direction)
         {
             CurrentRoad = road;
             Position = position;
@@ -20,6 +24,8 @@ namespace TrafficSim
             IsForward = true;
             Disabled = false;
             VisibilityRangeScalar = Util.GetRandomNumber(40, 50);
+            _myManager = myManager;
+
         }
 
         public void Initialize()
@@ -156,14 +162,11 @@ namespace TrafficSim
                 return;
             }
 
-            if (CurrentSegment == null)
+            if (CurrentSegment == null)// may be null when no longer on line segment
             {
+                //local car has ended: push final score to Score manager
+                _myManager.Scores.Add(GetScore());
                 Dispose();
-                return;
-            }
-
-            if (CurrentSegment == null) // may be null when no longer on line segment
-            {
                 return;
             }
 
@@ -177,6 +180,7 @@ namespace TrafficSim
             var truePercentage = pixelDistance / whole;
                 //because this flickers between full speed and almost nothing every other update, we'll smooth out the interpolation value to make color look nicer
             _desiredSpeedPercentage = _desiredSpeedPercentage + 0.1f * (truePercentage - _desiredSpeedPercentage);
+            _speedPercentages.Add(_desiredSpeedPercentage);
 
             if (!forwardVector.IsZero())
             {
@@ -198,6 +202,17 @@ namespace TrafficSim
         private void Dispose()
         {
             Disabled = true;
+        }
+
+        //Partial scores work fine here, and works independent of turns
+        public float GetScore()
+        {
+            float totalScore = 0f;
+            for (int i = 0; i < _speedPercentages.Count; ++i)
+            {
+                totalScore += _speedPercentages[i];
+            }
+            return _speedPercentages.Count > 0 ? totalScore / _speedPercentages.Count : 0;
         }
     }
 }
