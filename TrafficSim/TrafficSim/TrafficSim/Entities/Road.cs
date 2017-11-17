@@ -11,9 +11,11 @@ namespace TrafficSim
 
         private CarManager _carManager;
 
-        public Road(List<PointF> vertices, float lengthInMiles, CarManager carManager, int speedLimit = 60)
+
+        public Road(Datum roadSegment, float lengthInMiles, CarManager carManager, int speedLimit = 60)
         {
-            Vertices = vertices;
+            RoadSegment = roadSegment;
+            Vertices = roadSegment.segments.ToVertices();
             Segments = new List<Line>();
             Intersections = new List<Intersection>();
             ForwardCars = new List<Car>();
@@ -32,6 +34,8 @@ namespace TrafficSim
 
             _carManager = carManager;
         }
+
+        public Datum RoadSegment { get; set; }
 
         public List<Car> AlternateCars { get; set; }
 

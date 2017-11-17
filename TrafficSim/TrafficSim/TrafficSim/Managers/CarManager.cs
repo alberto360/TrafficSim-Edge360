@@ -31,7 +31,11 @@ namespace TrafficSim
         {
             foreach (var car in Cars)
             {
-                car.Update(delta);
+                if (!car.Disabled)
+                {
+                    car.Update(delta);
+
+                }
             }
         }
 

@@ -14,10 +14,11 @@ namespace TrafficSim
             Position = position;
             Direction = direction;
             IsForward = true;
-
+            Disabled = false;
             VisibilityRangeScalar = Util.GetRandomNumber(40, 50);
         }
 
+        public bool Disabled { get; set; }
         public string AngleDiff { get; set; }
 
         public Intersection ClosestIntersection { get; set; }
@@ -141,6 +142,12 @@ namespace TrafficSim
                 return;
             }
 
+            if (CurrentSegment == null)
+            {
+                this.Dispose();
+                return;
+            }
+
             if (CurrentSegment == null) // may be null when no longer on line segment
             {
                 return;
@@ -177,7 +184,10 @@ namespace TrafficSim
         {
             Move(delta);
         }
-
+        private void Dispose()
+        {
+            Disabled = true;
+        }
         public float GetSpeedPercentage()
         {
             return _desiredSpeedPercentage;

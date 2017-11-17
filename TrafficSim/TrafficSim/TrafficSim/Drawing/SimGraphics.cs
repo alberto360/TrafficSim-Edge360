@@ -106,15 +106,42 @@ namespace TrafficSim
 
         public void DrawVehicle(PaintEventArgs e, Car car)
         {
-            var color = car.IsForward ? Pens.Red : Pens.Blue;
-            var brush = car.IsForward ? Brushes.Red : Brushes.Blue;
+            //            var color = car.IsForward ? Pens.Red : Pens.Blue;
+            //            var brush = car.IsForward ? Brushes.Red : Brushes.Blue;
+            //
+            //            var p = new Pen(car.IsForward ? Brushes.Red : Brushes.Blue, 3);
+            //
+            //            var offset = car.Position.Add(car.CurrentDirection.Rotate(90).Mult(5));
+            //
+            //            e.Graphics.DrawEllipse(color, new RectangleF(offset.Subtract(new PointF(_carRadius, _carRadius)), new SizeF(_carRadius * 2, _carRadius * 2)));
+            //            e.Graphics.DrawLine(p, offset, offset.Add(car.CurrentDirection.Mult(7)));
 
-            var p = new Pen(car.IsForward ? Brushes.Red : Brushes.Blue, 3);
+            Color fast = Color.Blue;
+            Color slow = Color.Red;
 
-            var offset = car.Position.Add(car.CurrentDirection.Rotate(90).Mult(5));
+            var colorLerpVal = car.GetSpeedPercentage();
+            if (colorLerpVal < 0)
+                colorLerpVal = 0;
+            else if (colorLerpVal > 1)
+                colorLerpVal = 1f;
 
-            e.Graphics.DrawEllipse(color, new RectangleF(offset.Subtract(new PointF(_carRadius, _carRadius)), new SizeF(_carRadius * 2, _carRadius * 2)));
-            e.Graphics.DrawLine(p, offset, offset.Add(car.CurrentDirection.Mult(7)));
+            //If we can get the cars to not almost full stop then go full speed every other update, this interpolation will look much nicer
+            Color finalColor = Color.FromArgb(
+                (int)(slow.A + (colorLerpVal * (fast.A - slow.A))),
+                (int)(slow.R + (colorLerpVal * (fast.R - slow.R))),
+                (int)(slow.G + (colorLerpVal * (fast.G - slow.G))),
+                (int)(slow.B + (colorLerpVal * (fast.B - slow.B))));
+
+            //var color = car.IsForward ? Pens.Red : Pens.Blue;
+            //var brush = car.IsForward ? Brushes.Red : Brushes.Blue;
+            //var p = new Pen(car.IsForward ? Brushes.Red : Brushes.Blue, 3);
+            Pen ellipsePen = new Pen(finalColor, 1);
+            Pen linePen = new Pen(finalColor, 3);
+
+            var offset = car.Position.Add(car.CurrentDirection.Perpendicular().Mult(5));
+
+            e.Graphics.DrawEllipse(ellipsePen, new RectangleF(offset.Subtract(new PointF(_carRadius, _carRadius)), new SizeF(_carRadius * 2, _carRadius * 2)));
+            e.Graphics.DrawLine(linePen, offset, offset.Add(car.CurrentDirection.Mult(7)));
         }
 
         public void DrawRoads(PaintEventArgs e, Road road)

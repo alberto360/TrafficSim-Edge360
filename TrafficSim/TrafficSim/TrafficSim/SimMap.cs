@@ -40,15 +40,16 @@ namespace TrafficSim
 
         internal void BuildRoads(RoadSegments roadSegments)
         {
+            CarManager cm = new CarManager();
             Road[] roadList = new Road[roadSegments.roads[0].data.Count];
             int i = 0;
             foreach (var roadSegment in roadSegments.roads[0].data)
             {
-                roadList[i] = new Road(roadSegment, 2.2f);
+                roadList[i] = new Road(roadSegment, 2.2f, cm);
                 i++;
 
             }
-            simulation = new SimManager(roadList);
+            simulation = new SimManager(roadList, cm);
 //            simulation = new SimManager(new Road[]
 //                {
 //                    new Road(new List<PointF>()

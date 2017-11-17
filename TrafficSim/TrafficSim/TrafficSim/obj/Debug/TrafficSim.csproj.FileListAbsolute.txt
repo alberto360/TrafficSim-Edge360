@@ -34,3 +34,8 @@ D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.
 D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.Form1.resources
 D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.Properties.Resources.resources
 D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.csproj.GenerateResource.Cache
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\obj\Debug\TrafficSim.SimMap.resources
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\TrafficSim.exe
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\TrafficSim.pdb
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\Newtonsoft.Json.dll
+D:\git\TrafficSim-Edge360\TrafficSim\TrafficSim\TrafficSim\bin\Debug\Newtonsoft.Json.xml

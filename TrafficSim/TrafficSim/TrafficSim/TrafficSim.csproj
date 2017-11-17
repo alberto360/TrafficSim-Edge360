@@ -67,6 +67,12 @@
     <Compile Include="Managers\IntersectionManager.cs" />
     <Compile Include="Entities\Line.cs" />
     <Compile Include="RoadModel\RoadModel.cs" />
+    <Compile Include="SimMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SimMap.Designer.cs">
+      <DependentUpon>SimMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\PointFExtension.cs" />
     <Compile Include="Program.cs" />
@@ -88,6 +94,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SimMap.resx">
+      <DependentUpon>SimMap.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
