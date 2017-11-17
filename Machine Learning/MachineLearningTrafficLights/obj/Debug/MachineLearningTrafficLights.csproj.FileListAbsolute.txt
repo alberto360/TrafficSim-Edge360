@@ -1,0 +1,1 @@
+c:\users\mczarnek\documents\visual studio 2015\Projects\MachineLearningTrafficLights\MachineLearningTrafficLights\bin\Debug\MachineLearningTrafficLights.exe.config
