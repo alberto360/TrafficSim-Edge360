@@ -50,11 +50,11 @@
 
         public float YellowDuration { get; set; }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             _lastUpdateTime += delta;
 

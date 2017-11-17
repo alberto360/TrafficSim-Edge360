@@ -17,7 +17,7 @@ namespace TrafficSim
         {
             InitializeComponent();
         }
-        private int zoomFactor = 100;
+
         private SimManager simulation;
         private Timer timer;
         private void Form1_Load(object sender, EventArgs e)
@@ -33,19 +33,19 @@ namespace TrafficSim
                     new PointF(100, 300),
                     new PointF(300, 500),
                     new PointF(600, 500)
-                }, cm)
+                }, 2.2f, cm)
                 ,
                 new Road(new List<PointF>()
                 {
                     new PointF(600, 30),
                     new PointF(30, 600), 
-                }, cm) 
+                }, 2.2f, cm) 
                 ,
                 new Road(new List<PointF>()
                 {
                     new PointF(500, 320),
                     new PointF(10, 90),
-                }, cm)
+                }, 2.2f, cm)
             }, cm);
 
             timer = new Timer();
@@ -79,15 +79,32 @@ namespace TrafficSim
             float r = 3;
             foreach (var car in simulation.Cars)
             {
-                var color = car.IsForward ? Pens.Red : Pens.Blue;
-                var brush = car.IsForward ? Brushes.Red : Brushes.Blue;
+                Color fast = Color.Blue;
+                Color slow = Color.Red;
 
-                var p = new Pen(car.IsForward ? Brushes.Red : Brushes.Blue, 3);
+                var colorLerpVal = car.GetSpeedPercentage();
+                if (colorLerpVal < 0)
+                    colorLerpVal = 0;
+                else if (colorLerpVal > 1)
+                    colorLerpVal = 1f;
+
+                //If we can get the cars to not almost full stop then go full speed every other update, this interpolation will look much nicer
+                Color finalColor = Color.FromArgb(
+                    (int)(slow.A + (colorLerpVal * (fast.A - slow.A))),
+                    (int)(slow.R + (colorLerpVal * (fast.R - slow.R))),
+                    (int)(slow.G + (colorLerpVal * (fast.G - slow.G))),
+                    (int)(slow.B + (colorLerpVal * (fast.B - slow.B))));
+
+                //var color = car.IsForward ? Pens.Red : Pens.Blue;
+                //var brush = car.IsForward ? Brushes.Red : Brushes.Blue;
+                //var p = new Pen(car.IsForward ? Brushes.Red : Brushes.Blue, 3);
+                Pen ellipsePen = new Pen(finalColor, 1);
+                Pen linePen = new Pen(finalColor, 3);
 
                 var offset = car.Position.Add(car.CurrentDirection.Perpendicular().Mult(5));
                  
-                e.Graphics.DrawEllipse(color, new RectangleF(offset.Subtract(new PointF(r, r)), new SizeF(r * 2, r * 2)));
-                e.Graphics.DrawLine(p, offset, offset.Add(car.CurrentDirection.Mult(7))); 
+                e.Graphics.DrawEllipse(ellipsePen, new RectangleF(offset.Subtract(new PointF(r, r)), new SizeF(r * 2, r * 2)));
+                e.Graphics.DrawLine(linePen, offset, offset.Add(car.CurrentDirection.Mult(7))); 
             }
 
             foreach (var intersection in simulation.Intersections)

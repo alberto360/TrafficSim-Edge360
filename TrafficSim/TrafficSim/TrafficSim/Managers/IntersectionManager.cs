@@ -53,12 +53,12 @@ namespace TrafficSim
             }
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
             throw new NotImplementedException();
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var intersection in Intersections)
             {

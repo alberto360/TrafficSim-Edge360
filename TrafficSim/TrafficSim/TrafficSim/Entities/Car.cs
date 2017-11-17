@@ -5,6 +5,9 @@ namespace TrafficSim
     public class Car : ASimBase
     {
         private Road _currentRoad;
+        private float _desiredSpeedPercentage = 1f; //it should be a value typically between 0 and 1, with 1 being the speed limit
+
+
 
         public Car(Road road, PointF position, float direction)
         {
@@ -127,7 +130,7 @@ namespace TrafficSim
         {
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
@@ -144,10 +147,14 @@ namespace TrafficSim
                 return;
             }
 
-            var expectedTravelDistance = ((CurrentRoad.SpeedLimit / 60f) / 60f) * delta; //Speed limit is in MPH and delta is expected to be in seconds, so apply a conversion so we can get miles/second
+            var pixelDistance = CurrentRoad.GetUnitsPerHour(CurrentRoad.SpeedLimit);
+
             var forwardVector = CurrentSegment.Normalized();
 
-            expectedTravelDistance = ApplyObstructionModifier(expectedTravelDistance, forwardVector);
+            pixelDistance = pixelDistance / 60 / 60 / (delta * 1000);
+            var whole = pixelDistance;
+            pixelDistance = ApplyObstructionModifier(pixelDistance, forwardVector);
+            _desiredSpeedPercentage = pixelDistance / whole;
 
             if (!forwardVector.IsZero())
             {
@@ -156,7 +163,7 @@ namespace TrafficSim
                     forwardVector = forwardVector.Mult(-1);
                     IsForward = false;
                 }
-                Position = Position.Add(forwardVector.Mult(expectedTravelDistance));
+                Position = Position.Add(forwardVector.Mult(pixelDistance));
             }
 
             if (!Line.PointOnLineSegment(CurrentSegment, Position))
@@ -166,9 +173,14 @@ namespace TrafficSim
             }
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             Move(delta);
+        }
+
+        public float GetSpeedPercentage()
+        {
+            return _desiredSpeedPercentage;
         }
     }
 }

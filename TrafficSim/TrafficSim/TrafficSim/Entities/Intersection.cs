@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace TrafficSim
 {
-    public class Intersection : RoadSegmentEndpoint, ASimBase
+    public class Intersection : ASimBase
     {
         private readonly Dictionary<Road, TrafficLight> _lightCache = new Dictionary<Road, TrafficLight>();
         private int _currentLightIndex;
@@ -72,12 +72,12 @@ namespace TrafficSim
             return TrafficLight.ETrafficLightStatus.Red;
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             foreach (var light in Lights)
             {

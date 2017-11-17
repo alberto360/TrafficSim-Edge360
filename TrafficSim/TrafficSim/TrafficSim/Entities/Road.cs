@@ -11,7 +11,7 @@ namespace TrafficSim
 
         private CarManager _carManager;
 
-        public Road(List<PointF> vertices, CarManager carManager, int speedLimit = 60)
+        public Road(List<PointF> vertices, float lengthInMiles, CarManager carManager, int speedLimit = 60)
         {
             Vertices = vertices;
             Segments = new List<Line>();
@@ -19,8 +19,9 @@ namespace TrafficSim
             ForwardCars = new List<Car>();
             AlternateCars = new List<Car>();
 
-            //ComputeCartesianLength();
-            GenerateSegments(); //Previously, Computing the length was also generating the Segments, so now we need a sperate method - MR
+            LengthInMiles = lengthInMiles;
+            ComputeCartesianLength();
+            //GenerateSegments(); //Previously, Computing the length was also generating the Segments, so now we need a sperate method - MR
 
             CalculateDirectionTrend(out float dir, out float coDir);
 
@@ -43,6 +44,8 @@ namespace TrafficSim
         public List<Car> ForwardCars { get; set; }
 
         public List<Intersection> Intersections { get; set; }
+
+        public float LengthInMiles { get; set; }
 
         public List<Line> Segments { get; set; }
         public int SpeedLimit { get; set; }
@@ -102,18 +105,18 @@ namespace TrafficSim
             return null;
         }
 
-        ///// <summary>
-        /////     Calculate how much a car should move along the road based on its cartesian length
-        /////     with respect to its length in miles
-        ///// </summary>
-        ///// <param name="milesPerHour"></param>
-        ///// <returns></returns>
-        //public float GetUnitsPerHour(float milesPerHour)
-        //{
-        //    return CartesianLength * milesPerHour / LengthInMiles;
-        //}
+        /// <summary>
+        ///     Calculate how much a car should move along the road based on its cartesian length
+        ///     with respect to its length in miles
+        /// </summary>
+        /// <param name="milesPerHour"></param>
+        /// <returns></returns>
+        public float GetUnitsPerHour(float milesPerHour)
+        {
+            return CartesianLength * milesPerHour / LengthInMiles;
+        }
 
-        public override void Initialize()
+        public void Initialize()
         {
         }
 
@@ -139,7 +142,7 @@ namespace TrafficSim
             return Math.Abs(Direction - direction) < Math.Abs(CoDirection - direction);
         }
 
-        public override void Update(float delta)
+        public void Update(float delta)
         {
             //Keep track of the passed time: if it exceeds our spawn rate, spawn cars until it doesn't. - MR
             _carSpawnTimeAccumulator += delta;
@@ -149,25 +152,25 @@ namespace TrafficSim
                 _carSpawnTimeAccumulator -= _carSpawnRate;
             }
         }
-        private void GenerateSegments()
-        {
-            for (var i = 0; i < Vertices.Count - 1; i++)
-            {
-                Segments.Add(new Line(Vertices[i], Vertices[i + 1]));
-            }
-        }
-
-        //private void ComputeCartesianLength()
+        //private void GenerateSegments()
         //{
-        //    var dist = 0.0;
         //    for (var i = 0; i < Vertices.Count - 1; i++)
         //    {
-        //        dist += Vertices[i].DistanceTo(Vertices[i + 1]);
-
-        //        // populate edge list
         //        Segments.Add(new Line(Vertices[i], Vertices[i + 1]));
         //    }
-        //    CartesianLength = (float) dist;
         //}
+
+        private void ComputeCartesianLength()
+        {
+            var dist = 0.0;
+            for (var i = 0; i < Vertices.Count - 1; i++)
+            {
+                dist += Vertices[i].DistanceTo(Vertices[i + 1]);
+
+                // populate edge list
+                Segments.Add(new Line(Vertices[i], Vertices[i + 1]));
+            }
+            CartesianLength = (float)dist;
+        }
     }
 }
