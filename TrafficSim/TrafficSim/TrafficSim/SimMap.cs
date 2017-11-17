@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace TrafficSim
 {
@@ -10,86 +12,73 @@ namespace TrafficSim
         public SimManager simulation;
         private Timer timer;
         private SimGraphics simGraphics;
-
+        private RoadSegments _roadSegments;
         public SimMap()
         {
             MouseMove += SimMap_MouseMove;
-            MouseDown += SimMap_MouseDown; ;
+            MouseDown += SimMap_MouseDown;
             MouseUp += SimMap_MouseUp;
 
             InitializeComponent();
         }
 
-        private void SimMap_MouseUp(object sender, MouseEventArgs e)
+        /// <summary>
+        ///     Get configuration values,
+        ///     will return each light's green duration value.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<Guid, float> GetDefaultValues()
         {
-            //            throw new NotImplementedException();
+            var lightConfigs = new Dictionary<Guid, float>();
+            foreach (var intersection in simulation.Intersections)
+            {
+                foreach (var light in intersection.Lights)
+                {
+                    if (!lightConfigs.ContainsKey(light.Id))
+                    {
+                        lightConfigs.Add(light.Id, light.GreenDuration);
+                    }
+                }
+            }
+            return lightConfigs;
         }
 
-        private void SimMap_MouseDown(object sender, MouseEventArgs e)
+
+        /// <summary>
+        ///     TODO: clean up logic.
+        ///     sets the configuration for each light.
+        ///     pass in value is a dictionary composed of the key
+        /// </summary>
+        /// <param name="newStates"></param>
+        public void SetConfigStates(Dictionary<Guid, float> newStates)
         {
-            simGraphics.RefreshLineSelection(e.Location, simulation.Roads, this);
- 
-            if (simGraphics.SelectedLine != null )
+            foreach (var newState in newStates)
             {
-                Capture = true;
-                //Route has been selected
-                var parent = this.Parent as Form1;
-                parent.DisplayRoadInformation(simGraphics.SelectedLine);
+                var foundIntersection = simulation.Intersections.First(
+                    intersection => intersection.Lights
+                                        .FirstOrDefault(light => light.Id == newState.Key) != null
+                );
+                var foundLight = foundIntersection.Lights.FirstOrDefault(light => light.Id == newState.Key);
+                foundLight.GreenDuration = newState.Value;
             }
         }
 
         internal void BuildRoads(RoadSegments roadSegments)
         {
-            CarManager cm = new CarManager();
-            Road[] roadList = new Road[roadSegments.roads[0].data.Count];
-            int i = 0;
+            var cm = new CarManager();
+            var roadList = new Road[roadSegments.roads[0].data.Count];
+            var i = 0;
             foreach (var roadSegment in roadSegments.roads[0].data)
             {
                 roadList[i] = new Road(roadSegment, 2.2f, cm);
                 i++;
-
             }
             simulation = new SimManager(roadList, cm);
-//            simulation = new SimManager(new Road[]
-//                {
-//                    new Road(new List<PointF>()
-//                    {
-//                        new PointF(30, 30),
-//                        new PointF(100, 100),
-//                        new PointF(100, 300),
-//                        new PointF(300, 500),
-//                        new PointF(600, 500)
-//                    }, 2.2f)
-//                    ,
-//                    new Road(new List<PointF>()
-//                    {
-//                        new PointF(600, 30),
-//                        new PointF(30, 600),
-//                    }, 2.2f)
-//                    ,
-//                    new Road(new List<PointF>()
-//                    {
-//                        new PointF(500, 320),
-//                        new PointF(10, 90),
-//                    }, 2.2f)
-//                    ,
-//                    new Road(new List<PointF>()
-//                    {
-//                        new PointF(600, 320),
-//                        new PointF(400, 50),
-//                    }, 2.2f)
-//                });
         }
 
-        private void SimMap_MouseMove(object sender, MouseEventArgs e)
+        private void UIThread(Action t)
         {
-//            simGraphics.RefreshLineSelection(e.Location, simulation.Roads, this);
-
-            if (simulation == null)
-            {
-                return;
-            }
-            simGraphics.RefreshLineSelection(e.Location, simulation.Roads, this);
+            Invoke(t);
         }
 
         private void SimMap_Load(object sender, EventArgs e)
@@ -97,25 +86,44 @@ namespace TrafficSim
             DoubleBuffered = true;
             simGraphics = new SimGraphics();
 
+            using (StreamReader r = new StreamReader(@"D:/git/TrafficSim-Edge360/Schemas/Roads.json"))
+            {
+                string json = r.ReadToEnd();
+                _roadSegments = JsonConvert.DeserializeObject<RoadSegments>(json);
+                BuildRoads(_roadSegments);
+            }
+
             timer = new Timer();
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void SimMap_MouseDown(object sender, MouseEventArgs e)
+        {
+            simGraphics.RefreshLineSelection(e.Location, simulation.Roads, this);
+
+            if (simGraphics.SelectedLine != null)
+            {
+                Capture = true;
+                //Route has been selected
+                var parent = Parent as Form1;
+                parent.DisplayRoadInformation(simGraphics.SelectedLine);
+            }
+        }
+
+        private void SimMap_MouseMove(object sender, MouseEventArgs e)
         {
             if (simulation == null)
             {
                 return;
             }
-            simulation.Update();
-            UIThread(Invalidate);
+            simGraphics.RefreshLineSelection(e.Location, simulation.Roads, this);
         }
 
-        private void UIThread(Action t)
+        private void SimMap_MouseUp(object sender, MouseEventArgs e)
         {
-            Invoke(t);
+            //            throw new NotImplementedException();
         }
 
         private void SimMap_Paint(object sender, PaintEventArgs e)
@@ -138,6 +146,16 @@ namespace TrafficSim
             {
                 simGraphics.DrawIntersection(e, intersection);
             }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (simulation == null)
+            {
+                return;
+            }
+            simulation.Update();
+            UIThread(Invalidate);
         }
     }
 }

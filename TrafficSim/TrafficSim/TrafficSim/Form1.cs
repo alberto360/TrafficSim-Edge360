@@ -14,7 +14,6 @@ namespace TrafficSim
 {
     public partial class Form1 : Form
     {
-        private RoadSegments _roadSegments;
         public Form1()
         {
             InitializeComponent();
@@ -22,15 +21,7 @@ namespace TrafficSim
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            using (StreamReader r = new StreamReader(@"D:/git/TrafficSim-Edge360/Schemas/Roads.json"))
-            {
-                string json = r.ReadToEnd();
-                _roadSegments = JsonConvert.DeserializeObject<RoadSegments>(json);
 
-                //                Console.WriteLine(items.ToString());
-
-                simMap1.BuildRoads(_roadSegments);
-            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)

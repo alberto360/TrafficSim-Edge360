@@ -4,8 +4,12 @@ namespace TrafficSim
 {
     public class Car : ASimBase
     {
+        public const int RED_LIGHT_PASS_THRESHOLD = 6;
+        public const float FRONT_ANGLE_THRESHOLD = 0.8f;
         private Road _currentRoad;
-        private float _desiredSpeedPercentage = 1f; //it should be a value typically between 0 and 1, with 1 being the speed limit
+
+        private float _desiredSpeedPercentage = 1f;
+            //it should be a value typically between 0 and 1, with 1 being the speed limit
 
 
         public Car(Road road, PointF position, float direction)
@@ -18,7 +22,15 @@ namespace TrafficSim
             VisibilityRangeScalar = Util.GetRandomNumber(40, 50);
         }
 
-        public bool Disabled { get; set; }
+        public void Initialize()
+        {
+        }
+
+        public void Update(float delta)
+        {
+            Move(delta);
+        }
+
         public string AngleDiff { get; set; }
 
         public Intersection ClosestIntersection { get; set; }
@@ -27,7 +39,8 @@ namespace TrafficSim
 
         public Road CurrentRoad
         {
-            get => _currentRoad;
+            get  =>
+            _currentRoad;
             set
             {
                 _currentRoad?.CarExited(this);
@@ -40,18 +53,18 @@ namespace TrafficSim
 
         public float Direction { get; set; }
 
+        public bool Disabled { get; set; }
+
         public bool IsForward { get; set; }
 
         public PointF Position { get; set; }
         public int VisibilityRangeScalar { get; set; }
 
-        public const int RED_LIGHT_PASS_THRESHOLD = 6;
-        public const float FRONT_ANGLE_THRESHOLD = 0.8f;
-
         public float ApplyObstructionModifier(float pixelUnits, PointF forwardVector)
         {
             var isForward = CurrentRoad.IsForwardDirection(Direction);
-            var carListCurrentRoad = isForward ? CurrentRoad.ForwardCars : CurrentRoad.AlternateCars; // cars on same road
+            var carListCurrentRoad = isForward ? CurrentRoad.ForwardCars : CurrentRoad.AlternateCars;
+                // cars on same road
             var directionTangent = isForward ? forwardVector : forwardVector.Mult(-1);
 
             CurrentDirection = directionTangent;
@@ -119,24 +132,25 @@ namespace TrafficSim
                 // verify the intersection is within visibility distance
                 if (dist <= pixelUnits * VisibilityRangeScalar)
                 {
-                    return (pixelUnits / VisibilityRangeScalar) / (float) dist;
+                    return pixelUnits / VisibilityRangeScalar / (float) dist;
                 }
             }
 
             return pixelUnits;
         }
 
-        public void GoalReached()
+        public float GetSpeedPercentage()
         {
+            return _desiredSpeedPercentage;
         }
 
-        public void Initialize()
+        public void GoalReached()
         {
         }
 
         public void Move(float delta)
         {
-            if (CurrentRoad == null)// currently never expected to be null
+            if (CurrentRoad == null) // currently never expected to be null
             {
                 GoalReached();
                 return;
@@ -144,7 +158,7 @@ namespace TrafficSim
 
             if (CurrentSegment == null)
             {
-                this.Dispose();
+                Dispose();
                 return;
             }
 
@@ -160,7 +174,8 @@ namespace TrafficSim
             pixelDistance = pixelDistance / 60 / 60 / (delta * 1000);
             var whole = pixelDistance;
             pixelDistance = ApplyObstructionModifier(pixelDistance, forwardVector);
-            var truePercentage = pixelDistance / whole; //because this flickers between full speed and almost nothing every other update, we'll smooth out the interpolation value to make color look nicer
+            var truePercentage = pixelDistance / whole;
+                //because this flickers between full speed and almost nothing every other update, we'll smooth out the interpolation value to make color look nicer
             _desiredSpeedPercentage = _desiredSpeedPercentage + 0.1f * (truePercentage - _desiredSpeedPercentage);
 
             if (!forwardVector.IsZero())
@@ -180,17 +195,9 @@ namespace TrafficSim
             }
         }
 
-        public void Update(float delta)
-        {
-            Move(delta);
-        }
         private void Dispose()
         {
             Disabled = true;
-        }
-        public float GetSpeedPercentage()
-        {
-            return _desiredSpeedPercentage;
         }
     }
 }

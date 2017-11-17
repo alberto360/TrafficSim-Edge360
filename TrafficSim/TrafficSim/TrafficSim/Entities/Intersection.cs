@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TrafficSim
 {
@@ -13,6 +16,7 @@ namespace TrafficSim
 
         public Intersection(IntersectionManager manager, Road[] roads, PointF position, int numberOfDistinctLightSets = 2)
         {
+
             Roads = roads;
             Position = position;
 
@@ -79,6 +83,8 @@ namespace TrafficSim
 
         public void Update(float delta)
         {
+
+
             foreach (var light in Lights)
             {
                 light.Update(delta);

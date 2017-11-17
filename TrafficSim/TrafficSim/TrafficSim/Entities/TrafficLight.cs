@@ -1,4 +1,8 @@
-﻿namespace TrafficSim
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace TrafficSim
 {
     public class TrafficLight : ASimBase
     {
@@ -16,20 +20,28 @@
 
         public TrafficLight(Intersection intersection, TrafficLight partner)
         {
+
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(intersection.Position.X + "_" + intersection.Position.Y));//ewww nasty nasty, but consistant
+                Id = new Guid(hash);
+            }
+
+
             Intersection = intersection;
             Partner = partner;
 
             Status = ETrafficLightStatus.Red;
 
-            GreenDuration = Util.GetRandomNumber(10, 30);
-            YellowDuration = Util.GetRandomNumber(10, 15);
+            GreenDuration = 15;//Util.GetRandomNumber(10, 30); set to a default value, will be overwritten by ML
+            YellowDuration = 12;//Util.GetRandomNumber(10, 15); initially set the warning light to a set value
 
             if (Partner != null)
             {
                 Partner.Partner = this;
             }
         }
-
+        public Guid Id { get; private set; }
         public float GreenDuration { get; set; }
         public Intersection Intersection { get; set; }
 
